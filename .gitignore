@@ -1,0 +1,37 @@
+# Ignore AI models, datasets, outputs, and other large files
+*.h5
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.tflite
+*.joblib
+*.pkl
+*.npz
+*.npy
+*.csv
+*.tsv
+*.json
+*.zip
+*.tar
+*.tar.gz
+*.7z
+*.rar
+*.lb
+*.bin
+*.sav
+*.data
+*.db
+*.sqlite
+*.log
+
+# Cache and temporary files
+__pycache__/
+*.pyc
+.DS_Store
+
+# VS Code settings
+.vscode/
+
+runs/
+runs/detect/taco_yolov8n_60class_split3/weights/best.pt
