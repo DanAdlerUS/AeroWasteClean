@@ -25,6 +25,9 @@
 *.sqlite
 *.log
 
+# Ignore all run/output folders
+runs/
+
 # Cache and temporary files
 __pycache__/
 *.pyc
@@ -32,6 +35,3 @@ __pycache__/
 
 # VS Code settings
 .vscode/
-
-runs/
-runs/detect/taco_yolov8n_60class_split3/weights/best.pt
