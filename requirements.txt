@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+pillow
+numpy
+pymongo
+psycopg2-binary
+sqlalchemy
+# Add YOLO requirements below when ready (e.g. ultralytics)

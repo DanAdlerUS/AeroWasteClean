@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+pillow
+numpy
+pymongo
+psycopg2-binary
+sqlalchemy
+ultralytics
+opencv-python
+torch
+torchvision

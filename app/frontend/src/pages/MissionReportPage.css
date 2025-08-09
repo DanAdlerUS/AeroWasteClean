@@ -1,0 +1,51 @@
+.mission-report-page {
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+}
+
+h1, h2 {
+  margin-bottom: 1rem;
+}
+
+.mission-info p {
+  margin: 0.2rem 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  margin-top: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background-color: #004080;
+  color: white;
+}
+
+.mission-actions {
+  margin-top: 1rem;
+}
+
+button {
+  margin-right: 10px;
+  padding: 0.75rem 1rem;
+  background-color: #004080;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #0066cc;
+}
