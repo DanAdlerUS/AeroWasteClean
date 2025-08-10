@@ -24,6 +24,9 @@
 *.db
 *.sqlite
 *.log
+*png
+*jpeg
+*jpg
 
 # Ignore all run/output folders
 runs/
