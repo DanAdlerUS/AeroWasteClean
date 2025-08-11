@@ -1,9 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pathlib import Path
 from starlette.staticfiles import StaticFiles
 from back_app.api.routes import missions, drones, analysis
 from back_app.api.routes import login  
 from back_app.api.routes import ai
+
+BASE_DIR = Path(__file__).resolve().parent          # -> /app/backend/back_app
+STATIC_DIR = BASE_DIR / "static"                    # -> /app/backend/back_app/static
 
 app = FastAPI(title="AeroWaste Backend")
 
@@ -15,7 +19,8 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
-app.mount("/static", StaticFiles(directory="app/backend/back_app/static"), name="static")
+STATIC_DIR.mkdir(parents=True, exist_ok=True)
+app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
 app.include_router(missions.router)
 app.include_router(drones.router)

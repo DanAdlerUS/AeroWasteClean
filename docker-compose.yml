@@ -1,19 +1,21 @@
 version: '3.8'
 services:
   backend:
-    build: .
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     container_name: aerowaste_backend
     ports:
-      - "8000:8000"
+      - "8001:8000"
     depends_on:
       - mongo
       - postgres
     environment:
-      MONGO_URI: mongodb://mongo:27017/aerowaste
+      MONGO_URI: mongodb://mongo:27017/aero_waste
       POSTGRES_HOST: postgres
       POSTGRES_DB: aerowaste
       POSTGRES_USER: aerowaste_user
-      POSTGRES_PASSWORD: your_pg_password
+      POSTGRES_PASSWORD: J3nm1aru8y
     volumes:
       - ./app:/app  # Optional: enables live code updates if you change code locally
 
@@ -25,6 +27,11 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   postgres:
     image: postgis/postgis:16-3.4
@@ -38,6 +45,11 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aerowaste_user -d aerowaste"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   mongo_data:

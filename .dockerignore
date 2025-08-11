@@ -1,0 +1,69 @@
+# Python cache and bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+*/venv/
+
+# Local environment files
+.env
+*.env
+
+# Node modules (if any frontend is built locally)
+node_modules/
+
+# IDE/project files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Build outputs
+dist/
+build/
+
+# Test data, datasets, AI models (if not needed in container)
+datasets/
+*.pt
+*.weights
+*.onnx
+*.h5
+*.ckpt
+
+# Media files (if not needed in container)
+*.mp4
+*.mov
+*.avi
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+
+# Archives / compressed files
+*.zip
+*.tar
+*.gz
+*.7z
+
+# Misc large files
+*.bak
+*.tmp
+
+app/datasets/
+app/runs/
+app/*.mp4
+app/*.zip
+app/*.tar
