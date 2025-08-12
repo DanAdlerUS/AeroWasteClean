@@ -1,4 +1,4 @@
-const BASE_URL = 'http://127.0.0.1:8000'; // backend
+const BASE_URL = 'http://127.0.0.1:8001'; // backend
 const token = () => localStorage.getItem('token'); // if you store one on login later
 
 const j = r => { if (!r.ok) throw new Error('API error'); return r.json(); };

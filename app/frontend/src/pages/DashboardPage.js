@@ -11,7 +11,7 @@ function DashboardPage() {
           <li className="active"><Link to="/drones">Drone Management</Link></li>
           <li><Link to="/bases">Base Management</Link></li>
           <li><Link to="/AI">AI Settings</Link></li>
-          <li><Link to="#">Manage Users</Link></li>
+          <li><Link to="/users">Manage Users</Link></li>
         </ul>
       </aside>
 

@@ -5,6 +5,7 @@ import DroneManagementPage from './pages/DroneManagementPage';
 import BaseManagementPage from './pages/BaseManagementPage';
 import MissionReportPage from './pages/MissionReportPage';
 import AISettingsPage from './pages/AISettingsPage';
+import UserManagementPage from './pages/UserManagementPage';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/bases" element={<BaseManagementPage />} />
         <Route path="/ai" element={<AISettingsPage />} /> {/* ✅ */}
         <Route path="/mission-report/:id" element={<MissionReportPage />} />
+        <Route path="/users" element={<UserManagementPage />} />
       </Routes>
     </Router>
   );
