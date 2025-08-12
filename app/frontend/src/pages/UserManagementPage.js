@@ -23,17 +23,19 @@ function UserManagementPage() {
       setUsers(data);
     } catch (error) {
       console.error('Error fetching users:', error);
+      alert('Failed to load users');
     }
   };
 
   const fetchRoles = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8001/users/roles');
+      const response = await fetch('http://127.0.0.1:8001/roles');
       if (!response.ok) throw new Error('Failed to fetch roles');
       const data = await response.json();
       setRoles(data);
     } catch (error) {
       console.error('Error fetching roles:', error);
+      alert('Failed to load roles');
     }
   };
 
@@ -45,12 +47,24 @@ function UserManagementPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
+    const requiredFields = ['name', 'access_rights', 'start_date', 'end_date'];
+    for (const field of requiredFields) {
+        if (!formData.get(field)) {
+            alert(`Please fill in the ${field.replace('_', ' ')}`);
+            return;
+        }
+    }
+
     const userData = {
       name: formData.get('name'),
       access_rights: formData.get('access_rights'),
       start_date: formData.get('start_date'),
       end_date: formData.get('end_date'),
-      password: formData.get('password')
+    };
+
+    const password = formData.get('password');
+    if (password) {
+        userData.password = password;
     };
 
     try {
@@ -64,12 +78,16 @@ function UserManagementPage() {
         body: JSON.stringify(userData)
       });
 
-      if (!response.ok) throw new Error('Failed to save user');
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || 'Failed to save user');
+        }
         
       setShowAddModal(false);
       fetchUsers(); // Refresh the users list
     } catch (error) {
       console.error('Error saving user:', error);
+      alert(error.message);
     }
   };
 
@@ -86,6 +104,7 @@ function UserManagementPage() {
       fetchUsers(); // Refresh the users list
     } catch (error) {
       console.error('Error deleting user:', error);
+      alert(error.message);
     }
   };
 
