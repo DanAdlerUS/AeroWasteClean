@@ -53,13 +53,19 @@ const fetchRoles = async () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const requiredFields = ['name', 'access_rights', 'start_date'];
+    const requiredFields = ['name', 'access_rights', 'start_date', 'username'];
     for (const field of requiredFields) {
         if (!formData.get(field)) {
             alert(`Please fill in the ${field.replace('_', ' ')}`);
             return;
         }
     }
+
+   // If creating, require a password once
+   if (!selectedUser && !formData.get('password')) {
+     alert('Please set an initial password');
+     return;
+   }
 
     const userData = {
       username: formData.get('username'),     
@@ -206,7 +212,7 @@ const fetchRoles = async () => {
                 <tr key={role.id}>
                   <td>{role.name}</td>
                   <td>{role.description}</td>
-                  <td>{role.permissions}</td>
+                  <td>{Array.isArray(role.permissions) ? role.permissions.join(', ') : role.permissions}</td>
                   <td>
                     <button>Edit</button>
                     <button>Delete</button>

@@ -1,4 +1,4 @@
-from ..db.mongo import users
+from db.mongo import users
 from ..models.user_models import UserCreate, UserUpdate, UserInDB
 from datetime import datetime
 from passlib.hash import bcrypt

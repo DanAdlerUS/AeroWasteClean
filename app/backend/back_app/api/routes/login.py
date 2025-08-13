@@ -2,7 +2,7 @@
 from fastapi import APIRouter, HTTPException, Response
 from pydantic import BaseModel
 from datetime import datetime, timedelta
-from ...db.mongo import mongo_db
+from db.mongo import mongo_db
 from passlib.hash import bcrypt
 import jwt
 

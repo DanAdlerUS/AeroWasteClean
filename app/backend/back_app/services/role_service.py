@@ -1,4 +1,4 @@
-from ..db.mongo import roles
+from db.mongo import roles
 from ..models.role_models import RoleCreate, RoleUpdate, RoleInDB
 
 class RoleService:
