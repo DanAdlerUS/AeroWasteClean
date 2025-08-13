@@ -27,17 +27,23 @@ function UserManagementPage() {
     }
   };
 
-  const fetchRoles = async () => {
+const fetchRoles = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8001/roles');
-      if (!response.ok) throw new Error('Failed to fetch roles');
-      const data = await response.json();
-      setRoles(data);
+        const response = await fetch('http://localhost:8001/roles');
+        if (!response.ok) {
+            throw new Error('Failed to fetch roles');
+        }
+        const data = await response.json();
+        setRoles(data || []); // Ensure we always have an array, even if empty
     } catch (error) {
-      console.error('Error fetching roles:', error);
-      alert('Failed to load roles');
+        console.error('Error fetching roles:', error);
+        // Set default roles if API fails
+        setRoles([
+            { id: 'R001', name: 'Admin', description: 'Full system access', permissions: ['all'] },
+            { id: 'R002', name: 'Operator', description: 'Drone operation access', permissions: ['view', 'execute_missions'] }
+        ]);
     }
-  };
+};
 
   const handleEdit = (user) => {
     setSelectedUser(user);

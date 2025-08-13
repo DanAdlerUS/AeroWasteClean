@@ -4,7 +4,7 @@ from pymongo import MongoClient
 client = MongoClient("mongodb://localhost:27017")
 
 # Define the database
-mongo_db = client["aero_waste"]
+mongo_db = client["AeroWaste"]
 
 # Collections
 litter_images = mongo_db["litter_images"]
