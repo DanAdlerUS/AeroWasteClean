@@ -1,4 +1,6 @@
 from pymongo import MongoClient
+from passlib.hash import bcrypt
+from datetime import datetime
 
 # Connect to the default local MongoDB instance
 client = MongoClient("mongodb://localhost:27017")
@@ -16,3 +18,38 @@ roles = mongo_db["roles"]
 bases = mongo_db["bases"]
 drones = mongo_db["drones"]
 routes = mongo_db["routes"]
+
+def ensure_indexes():
+    mongo_db.users.create_index("username", unique=True)
+    mongo_db.users.create_index("email", unique=True, sparse=True)
+    mongo_db.roles.create_index("name", unique=True)
+
+def seed_admin():
+    roles = mongo_db.roles
+    users = mongo_db.users
+
+    admin_role = roles.find_one({"name": "Admin"})
+    if not admin_role:
+        admin_role_id = roles.insert_one({
+            "name": "Admin",
+            "description": "Full system access",
+            "permissions": ["all"]
+        }).inserted_id
+    else:
+        admin_role_id = admin_role["_id"]
+
+    if not users.find_one({"username": "admin"}):
+        users.insert_one({
+            "username": "admin",
+            "name": "Admin",
+            "email": None,
+            "role_id": admin_role_id,
+            "access_rights": "Admin",
+            "start_date": None,
+            "end_date": None,
+            "is_active": True,
+            "hashed_password": bcrypt.hash("Testing123"),
+            "last_login": None,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow(),
+        })

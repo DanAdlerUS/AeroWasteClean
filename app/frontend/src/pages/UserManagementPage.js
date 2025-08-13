@@ -17,7 +17,7 @@ function UserManagementPage() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8001/users');
+      const response = await fetch('http://127.0.0.1:8001/users', { credentials: 'include' });
       if (!response.ok) throw new Error('Failed to fetch users');
       const data = await response.json();
       setUsers(data);
@@ -29,7 +29,7 @@ function UserManagementPage() {
 
 const fetchRoles = async () => {
     try {
-        const response = await fetch('http://localhost:8001/roles');
+        const response = await fetch('http://127.0.0.1:8001/roles', { credentials: 'include' });
         if (!response.ok) {
             throw new Error('Failed to fetch roles');
         }
@@ -53,7 +53,7 @@ const fetchRoles = async () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const requiredFields = ['name', 'access_rights', 'start_date', 'end_date'];
+    const requiredFields = ['name', 'access_rights', 'start_date'];
     for (const field of requiredFields) {
         if (!formData.get(field)) {
             alert(`Please fill in the ${field.replace('_', ' ')}`);
@@ -62,6 +62,8 @@ const fetchRoles = async () => {
     }
 
     const userData = {
+      username: formData.get('username'),     
+      email: formData.get('email') || null, 
       name: formData.get('name'),
       access_rights: formData.get('access_rights'),
       start_date: formData.get('start_date'),
@@ -81,6 +83,7 @@ const fetchRoles = async () => {
       const response = await fetch(url, {
         method: selectedUser ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(userData)
       });
 
@@ -102,9 +105,10 @@ const fetchRoles = async () => {
     
     try {
       const response = await fetch(`http://127.0.0.1:8001/users/${userId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'include'
       });
-        
+
       if (!response.ok) throw new Error('Failed to delete user');
         
       fetchUsers(); // Refresh the users list
@@ -230,6 +234,22 @@ const fetchRoles = async () => {
                     name="name"
                     defaultValue={selectedUser?.name || ''}
                   />
+                </div>
+                <div className="form-group">
+                  <label>Username:</label>
+                  <input
+                    type="text"
+                    name="username"
+                    defaultValue={selectedUser?.username || ''}
+                />
+                </div>
+                <div className="form-group">
+                  <label>Email (optional):</label>
+                  <input
+                    type="email"
+                    name="email"
+                    defaultValue={selectedUser?.email || ''}
+                />
                 </div>
                 <div className="form-group">
                   <label>Access Rights:</label>

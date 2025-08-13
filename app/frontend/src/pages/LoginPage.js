@@ -12,10 +12,11 @@ function LoginPage() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://127.0.0.1:8001/login', {
+      const response = await fetch('http://127.0.0.1:8001/login', {        
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        credentials: 'include', 
+        body: JSON.stringify({ username_or_email: username, password })
       });
 
       if (!response.ok) {
@@ -24,9 +25,6 @@ function LoginPage() {
 
       const data = await response.json();
       console.log('Login success:', data);
-
-      // 👉 Store token if needed later
-      // localStorage.setItem('token', data.token);
 
       // ✅ Redirect to the dashboard
       navigate('/dashboard');
@@ -41,7 +39,7 @@ function LoginPage() {
       <h1>Aero Waste Services</h1>
       <form onSubmit={handleLogin}>
         <label>
-          Username:
+          Username or email:
           <input
             type="text"
             value={username}
