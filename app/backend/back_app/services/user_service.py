@@ -31,29 +31,34 @@ class UserService:
             return UserInDB(**user)
         return None
 
-    @staticmethod
-    async def create_user(user: UserCreate):
-        data = user.dict()
-        plain = data.pop("password")
-        data["hashed_password"] = bcrypt.hash(plain)
+@staticmethod
+async def create_user(user: UserCreate):
+    data = user.dict()
+    
+    # Ensure password is provided for new users
+    if "password" not in data or not data["password"]:
+        raise ValueError("Password is required for new users")
+    
+    plain = data.pop("password")
+    data["hashed_password"] = bcrypt.hash(plain)
 
-        # 🔁 Map access_rights to role_id
-        if "access_rights" in data and data["access_rights"]:
-            role = roles.find_one({"name": data["access_rights"]})
-            if role:
-                data["role_id"] = role["_id"]
-            else:
-                raise ValueError(f"Role '{data['access_rights']}' does not exist.")
+    # Map access_rights to role_id
+    if "access_rights" in data and data["access_rights"]:
+        role = roles.find_one({"name": data["access_rights"]})
+        if role:
+            data["role_id"] = role["_id"]
         else:
-            raise ValueError("access_rights is required to assign role")
+            raise ValueError(f"Role '{data['access_rights']}' does not exist.")
+    else:
+        raise ValueError("access_rights is required to assign role")
 
-        data["id"] = f"U{str(users.count_documents({}) + 1).zfill(3)}"
-        data["last_login"] = None
-        data["created_at"] = datetime.utcnow()
-        data["updated_at"] = datetime.utcnow()
+    data["id"] = f"U{str(users.count_documents({}) + 1).zfill(3)}"
+    data["last_login"] = None
+    data["created_at"] = datetime.utcnow()
+    data["updated_at"] = datetime.utcnow()
 
-        users.insert_one(data)
-        return UserInDB(**data)
+    users.insert_one(data)
+    return UserInDB(**data)
 
     @staticmethod
     async def update_user(user_id: str, user: UserUpdate):

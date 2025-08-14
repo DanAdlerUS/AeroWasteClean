@@ -38,3 +38,57 @@ export async function getImageReviewHistory({ limit=20 } = {}) {
   const res = await fetch(`${BASE_URL}/ai/review/history?${q.toString()}`);
   return j(res);
 }
+// AI: Image upload
+export async function uploadImage(formData) {
+  const res = await fetch(`${BASE_URL}/ai/upload`, {
+    method: 'POST',
+    body: formData // Don't set Content-Type header for FormData
+  });
+  return j(res);
+}
+
+export async function uploadBatchImages(files) {
+  const formData = new FormData();
+  files.forEach(file => {
+    formData.append('files', file);
+  });
+  
+  const res = await fetch(`${BASE_URL}/ai/upload-batch`, {
+    method: 'POST',
+    body: formData
+  });
+  return j(res);
+}
+
+// AI: Bounding boxes
+export async function updateBoundingBoxes(imageId, boundingBoxes) {
+  const res = await fetch(`${BASE_URL}/ai/bounding-boxes`, {
+    method: 'POST',
+    headers: headers(),
+    body: JSON.stringify({
+      image_id: imageId,
+      bounding_boxes: boundingBoxes
+    })
+  });
+  return j(res);
+}
+
+export async function getBoundingBoxes(imageId) {
+  const res = await fetch(`${BASE_URL}/ai/image/${imageId}/bounding-boxes`);
+  return j(res);
+}
+
+// AI: Model analysis
+export async function analyzeImage(imageId) {
+  const res = await fetch(`${BASE_URL}/ai/analyze/${imageId}`, {
+    method: 'POST',
+    headers: headers()
+  });
+  return j(res);
+}
+
+// AI: Training data export
+export async function exportTrainingData(format = 'yolo') {
+  const res = await fetch(`${BASE_URL}/ai/export/training-data?format=${format}`);
+  return j(res);
+}

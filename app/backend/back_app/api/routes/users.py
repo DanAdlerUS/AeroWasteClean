@@ -23,7 +23,7 @@ async def get_user(user_id: str, _: str = Depends(require_session)):
     raise HTTPException(status_code=404, detail="User not found")
 
 @router.post("/", response_model=UserInDB)
-async def create_user(user: UserCreate, _: str = Depends(require_session)):
+async def create_user(user: UserCreate):
     """Create a new user"""
     try:
         return await UserService.create_user(user)
@@ -31,14 +31,14 @@ async def create_user(user: UserCreate, _: str = Depends(require_session)):
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.put("/{user_id}", response_model=UserInDB)
-async def update_user(user_id: str, user: UserUpdate, _: str = Depends(require_session)):
+async def update_user(user_id: str, user: UserUpdate):
     """Update an existing user"""
     if updated_user := await UserService.update_user(user_id, user):
         return updated_user
     raise HTTPException(status_code=404, detail="User not found")
 
 @router.delete("/{user_id}")
-async def delete_user(user_id: str, _: str = Depends(require_session)):
+async def delete_user(user_id: str):
     """Delete a user"""
     if await UserService.delete_user(user_id):
         return {"message": "User deleted successfully"}

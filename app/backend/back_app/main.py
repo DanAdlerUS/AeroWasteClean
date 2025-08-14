@@ -26,6 +26,11 @@ app.add_middleware(
 STATIC_DIR.mkdir(parents=True, exist_ok=True)
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
+# Add litter images static serving
+LITTER_IMAGES_DIR = Path("C:/Users/flyin/AeroWaste/app/backend/back_app/ai/litter_images")
+LITTER_IMAGES_DIR.mkdir(parents=True, exist_ok=True)
+app.mount("/static/litter_images", StaticFiles(directory=str(LITTER_IMAGES_DIR)), name="litter_images")
+
 app.include_router(missions.router)
 app.include_router(drones.router)
 app.include_router(analysis.router)
