@@ -9,7 +9,11 @@ router = APIRouter(prefix="/users", tags=["users"])
 @router.get("/", response_model=list[UserInDB])
 async def get_users(_: str = Depends(require_session)):
      """Get all users"""
-     return await UserService.get_users()
+     try:
+         users = await UserService.get_users()
+         return users
+     except Exception as e:
+         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/{user_id}", response_model=UserInDB)
 async def get_user(user_id: str, _: str = Depends(require_session)):

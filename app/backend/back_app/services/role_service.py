@@ -1,5 +1,5 @@
 from db.mongo import roles
-from ..models.role_models import RoleCreate, RoleUpdate, RoleInDB
+from back_app.models.role_models import RoleCreate, RoleUpdate, RoleInDB
 
 class RoleService:
     @staticmethod
