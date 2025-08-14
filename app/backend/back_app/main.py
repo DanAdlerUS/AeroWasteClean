@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 from starlette.staticfiles import StaticFiles
-from back_app.api.routes import missions, drones, analysis, login, ai, users, roles
+from back_app.api.routes import missions, drones, analysis, login, ai, users, roles, bases
 from db.mongo import ensure_indexes, seed_admin
 
 BASE_DIR = Path(__file__).resolve().parent          # -> /app/backend/back_app
@@ -33,6 +33,7 @@ app.include_router(login.router)
 app.include_router(ai.router)
 app.include_router(users.router)
 app.include_router(roles.router)
+app.include_router(bases.router)
 
 @app.on_event("startup")
 async def _startup():
