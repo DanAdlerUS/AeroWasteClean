@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
-from ...models.user_models import UserCreate, UserUpdate, UserInDB
-from ...services.user_service import UserService
-from ..deps.auth import require_session
+from back_app.models.user_models import UserCreate, UserUpdate, UserInDB
+from back_app.services.user_service import UserService
+from back_app.api.deps.auth import require_session
 from datetime import datetime
 
 router = APIRouter(prefix="/users", tags=["users"])

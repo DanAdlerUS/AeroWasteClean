@@ -1,4 +1,3 @@
-# C:\Users\flyin\AeroWaste\app\backend\back_app\api\routes\login.py
 from fastapi import APIRouter, HTTPException, Response
 from pydantic import BaseModel
 from datetime import datetime, timedelta

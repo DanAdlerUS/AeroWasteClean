@@ -1,12 +1,9 @@
 from fastapi import APIRouter, HTTPException, Depends
-from ...models.role_models import RoleCreate, RoleUpdate, RoleInDB
-from ...services.role_service import RoleService
-from ..deps.auth import require_session
+from back_app.models.role_models import RoleCreate, RoleUpdate, RoleInDB
+from back_app.services.role_service import RoleService
+from back_app.api.deps.auth import require_session
 
-router = APIRouter(
-    prefix="/roles",
-    tags=["roles"]
-)
+router = APIRouter(prefix="/roles", tags=["roles"])
 
 @router.get("/", response_model=list[RoleInDB])
 async def get_roles(_: str = Depends(require_session)):

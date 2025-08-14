@@ -28,22 +28,30 @@ def seed_admin():
     roles = mongo_db.roles
     users = mongo_db.users
 
+    # ----- Create roles -----
+    def upsert_role(name, description, permissions):
+        if not roles.find_one({"name": name}):
+            roles.insert_one({
+                "name": name,
+                "description": description,
+                "permissions": permissions
+            })
+
+    upsert_role("Admin", "Full system access", ["all"])
+    upsert_role("Operator", "Drone and user management access", ["drones:read", "users:read", "users:write"])
+    upsert_role("Review", "AI queue review access", ["ai:review"])
+
+    # ----- Create admin user -----
     admin_role = roles.find_one({"name": "Admin"})
     if not admin_role:
-        admin_role_id = roles.insert_one({
-            "name": "Admin",
-            "description": "Full system access",
-            "permissions": ["all"]
-        }).inserted_id
-    else:
-        admin_role_id = admin_role["_id"]
+        raise RuntimeError("Admin role was not seeded correctly.")
 
     if not users.find_one({"username": "admin"}):
         users.insert_one({
             "username": "admin",
             "name": "Admin",
             "email": None,
-            "role_id": admin_role_id,
+            "role_id": admin_role["_id"],
             "access_rights": "Admin",
             "start_date": None,
             "end_date": None,
