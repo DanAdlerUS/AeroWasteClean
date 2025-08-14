@@ -5,11 +5,19 @@ class RoleService:
     @staticmethod
     async def get_roles():
         cursor = roles.find({})
-        return [RoleInDB(**role) for role in cursor]
+        docs = []
+        for doc in cursor:
+            # Convert MongoDB _id to string id if needed
+            if "_id" in doc and "id" not in doc:
+                doc["id"] = str(doc["_id"])
+            docs.append(RoleInDB(**doc))
+        return docs
 
     @staticmethod
     async def get_role(role_id: str):
         if (role := roles.find_one({"id": role_id})):
+            if "_id" in role and "id" not in role:
+                role["id"] = str(role["_id"])
             return RoleInDB(**role)
         return None
 

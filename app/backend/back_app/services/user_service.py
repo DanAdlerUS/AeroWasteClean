@@ -9,8 +9,12 @@ class UserService:
         cursor = users.find({})
         docs = []
         for doc in cursor:
+            # Convert MongoDB _id to string id if needed
             if "_id" in doc and "id" not in doc:
                 doc["id"] = str(doc["_id"])
+            # Convert role_id ObjectId to string if needed
+            if "role_id" in doc and hasattr(doc["role_id"], "__str__"):
+                doc["role_id"] = str(doc["role_id"])
             docs.append(UserInDB(**doc))
         return docs
 
@@ -18,8 +22,12 @@ class UserService:
     async def get_user(user_id: str):
         user = users.find_one({"id": user_id})
         if user:
+            # Convert MongoDB _id to string id if needed
             if "_id" in user and "id" not in user:
                 user["id"] = str(user["_id"])
+            # Convert role_id ObjectId to string if needed
+            if "role_id" in user and hasattr(user["role_id"], "__str__"):
+                user["role_id"] = str(user["role_id"])
             return UserInDB(**user)
         return None
 

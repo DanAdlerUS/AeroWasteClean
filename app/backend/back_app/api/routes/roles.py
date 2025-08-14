@@ -6,7 +6,7 @@ from back_app.api.deps.auth import require_session
 router = APIRouter(prefix="/roles", tags=["roles"])
 
 @router.get("/", response_model=list[RoleInDB])
-async def get_roles(_: str = Depends(require_session)):
+async def get_roles():
     try:
         roles = await RoleService.get_roles()
         return roles

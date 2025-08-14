@@ -7,7 +7,7 @@ from datetime import datetime
 router = APIRouter(prefix="/users", tags=["users"])
 
 @router.get("/", response_model=list[UserInDB])
-async def get_users(_: str = Depends(require_session)):
+async def get_users():
      """Get all users"""
      try:
          users = await UserService.get_users()
